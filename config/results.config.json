@@ -1,0 +1,29 @@
+[{
+  "wrappers": [
+    "group-box"
+  ],
+  "templateOptions": {
+    "wrapperTitle": "Gallery Layout"
+  },
+  "fieldGroup": [{
+    "key": "gallerySize",
+    "type": "dropdown",
+    "defaultValue": 100,
+    "wrappers": [
+      "form-field"
+    ],
+    "templateOptions": {
+      "arrayValues": [
+        { "display": "~ 20 pictures", "id": 20 },
+        { "display": "~ 40 pictures", "id": 40 },
+        { "display": "~ 60 pictures", "id": 60 },
+        { "display": "~ 100 pictures", "id": 100 },
+        { "display": "~ 200 pictures", "id": 200 }
+      ],
+      "labelProp": "display",
+      "valueProp": "id",
+      "label": "Number of images",
+      "description": "How many images should be displayed in the gallery at the same time?"
+    }
+  }]
+}]

@@ -1,0 +1,39 @@
+[theme="light"] {
+  --bg-color-2: #{$white};
+  --bg-color-2-inverted: #{$custom-dark};
+  --bg-color-3: #{$dark-10};
+  --bg-color-4: #{$dark-9};
+  --text-color-1: #{$custom-dark};
+  --text-color-1-inverted: #{$white};
+  --text-color-2: #{$dark-5};
+  // --box-img: url('../assets/img/light-oval.svg');
+  --btn-color-1: #{$custom-dark};
+  --btn-text-color-1: #{$white};
+
+  --input-color-1: #{$white};
+  --input-color-2: #{$dark-5};
+  --input-text-color-1: #{$custom-dark};
+  // --box-img: url('../assets/img/light-oval.svg');
+  // --btn-img: url('../assets/img/camera-white.icon.svg');
+
+}
+
+[theme="dark"] {
+  --bg-color-2: #{$custom-dark};
+  --bg-color-2-inverted: #{$white};
+  --bg-color-3: #{$light-10};
+  --bg-color-4: #{$light-9};
+  --text-color-1: #{$white};
+  --text-color-1-inverted: #{$custom-dark};
+  --text-color-2: #{$light-5};
+
+  --btn-color-1: #{$white};
+  --btn-text-color-1: #{$custom-dark};
+
+  --input-color-1: #{$custom-dark};
+  --input-color-2: #{$light-5};
+  --input-text-color-1: #{$white};
+
+  // --box-img: url('../assets/img/dark-oval.svg');
+  // --btn-img: url('../assets/img/camera-dark.icon.svg');
+} 

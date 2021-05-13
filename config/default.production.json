@@ -1,0 +1,20 @@
+{
+  "quiz": {},
+  "custom": {
+    "introTitle": "Take a selfie and appear in the collage!",
+    "introDescription": "The photo collage is created with pictures of the audience.",
+    "introImg": [],
+    "sendButton": "Send to collage",
+    "successMessage": "Nice Selfie! Your photo will appear in the collage soon.",
+    "theme": "light",
+    "backgroundColor": "#503AF2",
+    "filters": [],
+    "ctaEnabled": false,
+    "cta": {},
+
+    "mosaicGallerySize": 100,
+    "mosaicEmptyTileColor": [],
+    "mosaicBackground": ["#FADC60"],
+    "mosaicColors": ["#FADC60"]
+  }
+}

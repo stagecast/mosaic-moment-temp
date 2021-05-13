@@ -1,0 +1,73 @@
+{
+  "bundleId": "com.stagecast.mosaic_collage",
+  "version": "1.0.0-pre.0",
+  "category": "crowd game",
+  "description": "Display an interactive photo wall of your audience on the stage screen",
+  "tags": [
+    "collage",
+    "interaction",
+    "mosaic"
+  ],
+  "template": {
+    "name": "mosaic collage",
+    "displayName": "Mosaic Collage",
+    "defaultMessage": "",
+    "labels": [
+      "free",
+      "basic"
+    ],
+    "icons": [
+      {
+        "size": 200,
+        "url": "",
+        "name": "collage.png",
+        "type": "image/png",
+        "contentId": ""
+      }
+    ],
+    "presentation": {
+      "screenshots": [],
+      "cover": "",
+      "body": "<h2>What the moment does</h2><p>The Mosaic Collage Moment creates a massive mosaic picture with the selfies of your audience. You can also add branded images and photo filters to make the collage appear in your brand. A moderation page is available to ban inappropriate content.</p><h2>How to use the Moment at your event</h2><p>Use the Collage Moment to bridge waiting time before a show or to create fun interactions between acts.The Collage Moment is also a great way to onboard the audience to Stagecast - everyone likes to have a branded selfie with your filter!</p>"
+    },
+    "plugins": [
+      "sponsors"
+    ],
+    "branding": {
+      "brandActivation": true,
+      "theming": false,
+      "defaultTheme": ""
+    },
+    "screens": {
+      "mobile": "mandatory",
+      "moderation": "optional",
+      "stage": "mandatory"
+    },
+    "general": {
+      "type": "native",
+      "accessibility": [
+        "stagecast app",
+        "browser",
+        "app integration"
+      ],
+      "hasModeration": true,
+      "isInteractive": true,
+      "isFeedContent": false,
+      "feedItemTitle": "Mosaic Collage",
+      "supportedLanguages": [
+        "en",
+        "sv",
+        "de",
+        "it",
+        "da",
+        "fr",
+        "es"
+      ]
+    },
+    "provider": {
+      "developer": "Stagecast AB",
+      "org": "Stagecast AB",
+      "support": "support@stagecast.se"
+    }
+  }
+}

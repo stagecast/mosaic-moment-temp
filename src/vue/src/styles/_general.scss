@@ -1,0 +1,100 @@
+@import './variables';
+
+.text-white {
+  color: white!important;
+}
+
+.box {
+  background: var(--bg-color-2);
+  color: var(--text-color-1);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255,255,255,0.1);
+  margin: 16px 0px;
+
+  .box-title {
+    text-align: center;
+    font-size: 22px;
+    padding: 16px;
+    margin: 0;
+
+    span {
+      font-weight: $font-weight-normal;
+    }
+  }
+}
+
+.bg-grey {
+  background-color: var(--bg-color-3);
+}
+
+.border-top-radius {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.pb-10 {
+  padding-bottom: 10px;
+}
+
+.text-bold {
+  font-weight: $font-weight-bold;
+}
+
+.text-grey {
+  color: var(--text-color-2);
+}
+
+.right-border {
+  border-right: 1px solid var(--bg-color-3);
+}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+
+.round-fade-enter-active {
+  animation: round-fade-in .3s;
+}
+
+.round-fade-leave-active {
+  animation: round-fade-out .3s;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// TODO: add namespace to animations in Moment Components so they don't overlap
+@keyframes round-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(6%)
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%)
+  }
+}
+@keyframes round-fade-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0%)
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6%)
+  }
+}

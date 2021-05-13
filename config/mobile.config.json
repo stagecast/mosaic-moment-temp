@@ -1,0 +1,231 @@
+[{
+  "wrappers": [
+    "group-box"
+  ],
+  "templateOptions": {
+    "wrapperTitle": "Collage Settings"
+  },
+  "fieldGroup": [{
+    "key": "introTitle",
+    "defaultValue": "",
+    "type": "input",
+    "wrappers": [
+      "form-field"
+    ],
+    "templateOptions": {
+      "label": "Title",
+      "type": "text",
+      "placeholder": "Change the title"
+    }
+  },{
+    "key": "introDescription",
+    "defaultValue": "",
+    "type": "textarea",
+    "wrappers": [
+      "form-field"
+    ],
+    "templateOptions": {
+      "label": "Description",
+      "rows": 2,
+      "type": "text",
+      "placeholder": "Change the description"
+    }
+  },{
+    "key": "introImg",
+    "defaultValue": [],
+    "type": "image-input",
+    "wrappers": ["form-field"],
+    "templateOptions": {
+      "label": "Intro Image",
+      "description": "Recommended image size: 350px x 100px.",
+      "required": false,
+      "multiple": false,
+      "deleteImg": false,
+      "maxFiles": 1,
+      "id": "intro-img-uploader"
+    }
+  },{
+    "key": "filters",
+    "defaultValue": [],
+    "type": "image-select",
+    "wrappers": ["form-field"],
+    "templateOptions": {
+      "label": "Filters",
+      "multiple": false,
+      "maxFiles": 1,
+      "id": "collage-uploader"
+    }
+  }, {
+    "key": "sendButton",
+    "defaultValue": "",
+    "type": "input",
+    "wrappers": [
+      "form-field"
+    ],
+    "templateOptions": {
+      "label": "Send to Collage Button",
+      "type": "text",
+      "placeholder": "Change label"
+    }
+  }, {
+    "key": "successMessage",
+    "defaultValue": "",
+    "type": "textarea",
+    "wrappers": [
+      "form-field"
+    ],
+    "templateOptions": {
+      "label": "Success Message",
+      "rows": 2,
+      "type": "text",
+      "placeholder": "Change the success message"
+    }
+  }]
+},{
+  "wrappers": [
+    "group-box"
+  ],
+  "templateOptions": {
+    "wrapperTitle": "General Branding Settings"
+  },
+  "fieldGroup": [{
+    "key": "backgroundColor",
+    "type": "color-input",
+    "name": "color-input",
+    "defaultValue": "#503AF2",
+    "wrappers": [
+      "form-field"
+    ],
+    "templateOptions": {
+      "advanced": true,
+      "label": "Background color",
+      "description": "Select a custom background color for the quiz.",
+      "maxColors": 1,
+      "returnType": "string",
+      "colorType": "hex"
+    }
+  }, {
+    "key": "theme",
+    "type": "dropdown",
+    "defaultValue": "light",
+    "className": "col-12",
+    "wrappers": ["form-field"],
+    "templateOptions": {
+      "arrayValues": [
+        {"id": "light", "display": "Light"},
+        {"id": "dark", "display": "Dark"}
+      ],
+      "labelProp": "display",
+      "valueProp": "id",
+      "label": "Moment color theme",
+      "description": "Select moment theme."
+    }
+  }]
+},
+{
+  "key": "ctaEnabled",
+  "defaultValue": false,
+  "type": "toggle",
+  "wrappers": [
+    "form-field"
+  ],
+  "templateOptions": {
+    "settings": {
+      "display": "inline-block",
+      "position": "right",
+      "isGroupTitle": true,
+      "groupTitle": "Call To Action Page"
+    }
+  }
+},
+{
+  "key": "cta",
+  "wrappers": [
+    "group-box"
+  ],
+  "templateOptions": {
+    "withToggle": true
+  },
+  "expressionProperties": {
+    "templateOptions.disabled": "!field.parent.model.ctaEnabled"
+  },
+  "fieldGroup": [{
+    "key": "headerImg",
+    "defaultValue": [],
+    "type": "image-input",
+    "wrappers": ["form-field"],
+    "templateOptions": {
+      "label": "Header Image",
+      "description": "Recommended image size: 350px x 100px.",
+      "required": false,
+      "multiple": false,
+      "deleteImg": false,
+      "maxFiles": 1,
+      "id": "win-popup-img-uploader"
+    }
+  }, {
+    "key": "title",
+    "defaultValue": "",
+    "type": "input",
+    "wrappers": [
+      "form-field"
+    ],
+    "templateOptions": {
+      "label": "Headline",
+      "type": "text",
+      "placeholder": "Type in the title"
+    }
+  }, {
+    "key": "description",
+    "defaultValue": "",
+    "type": "textarea",
+    "wrappers": ["form-field"],
+    "templateOptions": {
+      "label": "Description",
+      "rows": 3,
+      "placeholder": "Write a brief description here..."
+    }
+  },{
+    "key": "callToAction",
+    "type": "input",
+    "defaultValue": "Go to Website",
+    "wrappers": [
+      "form-field", "disabled-wrapper"
+    ],
+    "templateOptions": {
+      "type": "text",
+      "label": "Button text",
+      "placeholder": "Type in a text for the button"
+    }
+  }, {
+    "key": "redirectUrl",
+    "defaultValue": "",
+    "type": "input",
+    "wrappers": [
+      "form-field"
+    ],
+    "templateOptions": {
+      "type": "url",
+      "label": "Button Link",
+      "placeholder": "Paste in a website link"
+    },
+    "validators": {
+      "validation": ["secureUrl"]
+    }
+  }, {
+    "key": "showAlways",
+    "defaultValue": false,
+    "type": "toggle",
+    "wrappers": [
+      "form-field"
+    ],
+    "templateOptions": {
+      "label": "Appear After Every Taken Picture",
+      "settings": {
+        "display": "block"
+      },
+      "description": "Activate to let the Call To Action Page appear after every taken picture. When this option is disabled the Call To Action Page will only appear once."
+    }
+  }]
+}]
+  

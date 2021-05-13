@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+@import "~normalize.css/normalize.css";
+@import './variables';
+@import './themes';
+@import "./general";
+
+a.btn {
+  text-decoration: none;
+  display: inline-block;
+}
+.btn {
+  font-family: "Source Sans Pro", Verdana, sans-serif;
+  border-radius: 4px;
+  height: 60px;
+  padding: 0 8px;
+  border: none;
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: var(--input-color-1);
+  color: var(--input-text-color-1);
+  transition: all 0.3s ease-out;
+  &.btn-inverted {
+    background-color: var(--bg-color-2-inverted);
+    color: var(--text-color-1-inverted);
+  }
+  &.full-width {
+    width: 100%;
+  }
+  
+  &.btn-small {
+    height: 40px;
+    padding: 8px;
+    font-size: 16px;
+    & > img {
+      height: 24px;
+      width: 24px;
+      margin: 0;
+    }
+  }
+  &.btn-transparent {
+    background: transparent!important;
+  }
+
+  &:active, &:focus {
+    transform: scale(0.90);
+  }
+}
+
+.btn img, .btn .img {
+  margin-left: 16px;
+  height: 26px;
+  width: 26px;
+  float: left;
+  vertical-align: middle;
+}
+.btn span {
+  margin-left: -16px;
+}
+
+.box-positioner {
+  padding: 10px 16px 0 16px;
+}
