@@ -20,7 +20,7 @@
       {
         "size": 200,
         "url": "",
-        "name": "collage.png",
+        "name": "mosaic_collage.png",
         "type": "image/png",
         "contentId": ""
       }
@@ -28,7 +28,7 @@
     "presentation": {
       "screenshots": [],
       "cover": "",
-      "body": "<h2>What the moment does</h2><p>The Mosaic Collage Moment creates a massive mosaic picture with the selfies of your audience. You can also add branded images and photo filters to make the collage appear in your brand. A moderation page is available to ban inappropriate content.</p><h2>How to use the Moment at your event</h2><p>Use the Collage Moment to bridge waiting time before a show or to create fun interactions between acts.The Collage Moment is also a great way to onboard the audience to Stagecast - everyone likes to have a branded selfie with your filter!</p>"
+      "body": "<h2>What the moment does</h2><p>The Mosaic Moment creates a massive mosaic picture with the selfies of your audience. You can also add branded images and photo filters to make the collage appear in your brand. A moderation page is available to ban inappropriate content.</p><h2>How to use the Moment at your event</h2><p>Use the Mosaic Moment to bridge waiting time before a show or to create fun interactions between acts.The Collage Moment is also a great way to onboard the audience to Stagecast - everyone likes to have a branded selfie with your filter!</p>"
     },
     "plugins": [
       "sponsors"
@@ -53,7 +53,7 @@
       "hasModeration": true,
       "isInteractive": true,
       "isFeedContent": false,
-      "feedItemTitle": "Mosaic Collage",
+      "feedItemTitle": "Mosaic",
       "supportedLanguages": [
         "en",
         "sv",

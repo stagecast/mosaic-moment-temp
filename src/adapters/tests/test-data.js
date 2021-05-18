@@ -1,7 +1,7 @@
 var momentData = {
   "environment": "staging",
-  "userId": "f.tester@stagecast.com",
-  "token": "JDJhJDEyJDI1WVdzcG5XVmVZL1RYVDhNWGhpWWU0c05FRGVoWGR2T2U3aERBZmVrQ0ZZRmxoLmdQNlJL",
+  "userId": "tester@52five.com",
+  "token": "JDJhJDEyJGZjNmFmcUpORDY1ODMxdnlCSm9SME9iR1lWYXdmUlBCTkgvWjVheExYQ3lpLlZTd1ZDUFJl",
   "momentClassData": {
     "sender": null,
     "language": "de",
@@ -17,24 +17,31 @@ var momentData = {
       "credit": "The moment is provided by:"
     },
     "showTopBanner": true,
-    "bundleId": 'com.stagecast.classic_quiz',
-    "topBannerMessage": "Download Stagecast App and type in the code 9279",
+    "bundleId": 'com.stagecast.mosaic_collage',
+    "topBannerMessage": "Download Stagecast App and type in the code XXXX",
     "custom": {
-      // theme data
       "filters": ['A58885CD-F82A-443F-83E8-8CE81FB128F1'],
       "backgroundImage": ["F4157CBB-8D4A-446D-B2FA-7EE27720E534"],
-      "resultBackgroundImage": ["F4157CBB-8D4A-446D-B2FA-7EE27720E534"],
-      "theme": "dark",
-      "backgroundColor": "red",
-      // prize data
-      "winHeaderImg": ["3CF3CC18-D84C-4123-A0C1-0FFD1749CD06"],
-      "winTitle": "This fantastic book is yours!",
-      "winDescription": "This is a WINNING description!!!!",
-      "helpHeaderImg": ["87AAFB81-ABCC-44AF-ADF3-F22C56AEA2F0"],
+      "introTitle": "Take a selfie and appear in the MOSAIC!",
+      "introDescription": "The MOSAIC is created with pictures of the audience.",
+      "introImg": [],
+      "sendButton": "Send to MOSAIC",
+      "successMessage": "Nice Selfie! Your photo will appear in the MOSAIC soon.",
       // "helpHeaderImg": [],
-      "ctaEnabled": false
+      "ctaEnabled": false,
+      "cta": {},
+      
+      // props for result page
+      "mosaicGallerySize": 100,
+      "mosaicEmptyTileColor": [],
+      "mosaicBackground": ["#FADC60"],
+      "mosaicColors": ["#FADC60"],
+      
+      // props for both
+      "theme": "light",
+      "backgroundColor": "#503AF2",
     },
-    "shareUrl": "https://stagecast.io",
+    "shareUrl": "https://stagecast.io/test/share",
   },
   "momentClassId":"0A841CBE-1797-4A26-8341-0AEED6AFF3E0",
   "momentId":"D7162BD3-C0E6-47D9-B2E3-D88B0A18DE77",
