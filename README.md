@@ -30,7 +30,7 @@
   }
 ```
 
-## API Calls
+## API Calls & Info
 
 Content tags
 ```javascript
@@ -40,10 +40,12 @@ Content tags
 
 Get content info
 ```javascript
-(bypass CDN for caching reasons... I will provide an SDK function for this)
-`https://${SDK.config.environment === 'production' ? '': 'staging.'}stagecast.se/api/_events/${SDK.getEventId()}/content?offset=${offset}&limit=${amount}${contentTag == '' ? '' : '&tag=' + contentTag}`
+// (bypass CDN for caching reasons... I will provide an SDK function for this)
+const url = `https://${SDK.config.environment === 'production' ? '': 'staging.'}stagecast.se/api/_events/${SDK.getEventId()}/content?offset=${offset}&limit=${amount}${contentTag == '' ? '' : '&tag=' + contentTag}`
 
-//returns 
+fetch(url).then(res => console.log(res)).catch();
+
+// returns latest ===> oldest
 [
   {
     "user":"f.tester@stagecast.com",
@@ -54,12 +56,17 @@ Get content info
   }, 
   ...
 ]
+
+// example call
+https://staging.stagecast.se/api/_events/F92AF0AF-348C-4BFE-8C4C-B3BBD412802D/content?offset=0&limit=100&tag=0A841CBE-1797-4A26-8341-0AEED6AFF3E0
 ```
 
 Get Content CDN Location
 ```javascript
-SDK.getContentCdnLocation(contentId);
-// returns `https://d2cb7i0wbc0znj.cloudfront.net/api/content/A5AED64D-8BB2-4A85-8F63-5D711F62A367`
+// the size searchParam will be supported in Stagecast 3.0
+let contentUrl = SDK.getContentCdnLocation(contentId);
+contentUrl += '?size=500x500'
+// returns `https://d2cb7i0wbc0znj.cloudfront.net/api/content/A5AED64D-8BB2-4A85-8F63-5D711F62A367?size=500x500`
 ```
 
 Get Deleted Content

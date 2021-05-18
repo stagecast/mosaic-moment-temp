@@ -1,4 +1,4 @@
-# Collage Moment
+# Mosaic Collage Moment
 
 ## Configuration Data
 An example object:
@@ -13,7 +13,7 @@ https://www.freecodecamp.org/news/how-to-get-https-working-on-your-local-develop
 
 Then install `http-server`
 
-Then run inside the `/collage` folder the command
+Then run inside the `/mosaic-collage` folder the command
 
 ```
 http-server /Users/filippoboiani/repositories/stagecast/new-moments/mosaic-collage -S -C /Users/filippoboiani/server.crt -K /Users/filippoboiani/server.key
