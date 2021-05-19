@@ -176,9 +176,9 @@ if(window.Stagecast) {
                             this.images.splice(delete_index_images, 1);
                         }
 
-                        let delete_index_tiles = this.tiles.findIndex(deleted_image_id);
+                        let delete_index_tiles = this.tiles.findIndex(element => element === deleted_image_id);
                         if(delete_index_tiles > -1) {
-                            this.tiles.splice(delete_index_tiles, 1);
+                            this.tiles.splice(delete_index_tiles, 1, null); // Replace with null to prevent offsetting other items
                         }
                     }
                 });
@@ -214,8 +214,6 @@ if(window.Stagecast) {
                     this.tiles.splice(index_2, 1, this.tiles[index_1]);
                     this.tiles.splice(index_1, 1, item_2);
                 }
-
-                console.log(this.images.filter(image => image.viewed === 0));
             },
 
             // This will be replaced by an SDK API function call.
