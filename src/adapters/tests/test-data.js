@@ -30,13 +30,16 @@ var momentData = {
       // "helpHeaderImg": [],
       "ctaEnabled": false,
       "cta": {},
-      
+
       // props for result page
-      "mosaicGallerySize": 100,
+      "mosaicGallerySize": 20,
       "mosaicEmptyTileColor": [],
-      "mosaicBackground": ["#FADC60"],
-      "mosaicColors": ["#FADC60"],
-      
+      "mosaicEmptyTileImage": ["F4157CBB-8D4A-446D-B2FA-7EE27720E534"],
+      // "mosaicEmptyTileImage": [],
+      "mosaicBackground": ["blue"],
+      // "mosaicBackgroundImage": ["A58885CD-F82A-443F-83E8-8CE81FB128F1"],
+      "mosaicBackgroundImage": ["55CF2F4A-1F4B-4856-A190-FA822DF86F39"],
+
       // props for both
       "theme": "light",
       "backgroundColor": "#503AF2",
