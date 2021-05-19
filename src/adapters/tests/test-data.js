@@ -30,13 +30,13 @@ var momentData = {
       // "helpHeaderImg": [],
       "ctaEnabled": false,
       "cta": {},
-      
+
       // props for result page
       "mosaicGallerySize": 100,
       "mosaicEmptyTileColor": [],
       "mosaicBackground": ["#FADC60"],
       "mosaicColors": ["#FADC60"],
-      
+
       // props for both
       "theme": "light",
       "backgroundColor": "#503AF2",

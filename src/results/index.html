@@ -8,9 +8,19 @@
     <link rel="stylesheet" href="./main.css">
 </head>
 <body>
-
-<div id="tiles-container"></div>
-
+<div class="mosaic-wrapper">
+    <div id="mosaic">
+        <div class="mosaic-logo-overlay" :style="{ 'background-image': 'url(' + logoOverlay + ')' }"></div>
+        <div class="mosaic-color-overlay" :style="{ 'background-color': colorOverlay }"></div>
+        <div class="tile" v-for="(tile, index) in tiles" v-bind:key="index"
+            :style="{ flex: '0 0 ' + (100/cols) + '%', color: emptyTileColors[Math.floor(Math.random() * emptyTileColors.length)] }"
+            :class="{ 'tile--empty': !tile }">
+            <div class="tile-image"></div>
+        </div>
+    </div>
+</div>
+<script src="//stagecast.se/media/lib/next/mdk/stagecast.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
 <script src="./main.js"></script>
 </body>
 </html>

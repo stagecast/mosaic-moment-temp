@@ -1,65 +1,79 @@
-document.addEventListener('DOMContentLoaded', init);
-window.addEventListener('resize', update_tile_size);
+if(window.Stagecast) {
+    const SDK = new Stagecast();
 
-/**
- * Initialize the mosaic moment results page.
- */
-function init() {
-    // Testing with numeric array from 0 to 99
-    draw_tiles(Array.from(Array(100).keys()));
-    update_tile_size();
-}
+    /**
+     * The Mosaic Vue component.
+     */
+    const app = new Vue({
+        el: '#mosaic',
+        data: {
+            tiles: [],
+            moment: undefined,
+            cols: 0,
+            logoOverlay: undefined,
+            colorOverlay: undefined,
+        },
+        computed: {
+            emptyTileColors: function() {
+                let colors = ['#1F1F1F'];
+                if (this.moment && this.moment.custom.mosaicEmptyTileColor.length > 0) {
+                    colors = this.moment.custom.mosaicEmptyTileColor;
+                }
+                return colors;
+            },
+        },
+        watch: {
+            tiles: function(newTiles, oldTiles) {
+                this.updateTileSize();
+            }
+        },
+        created() {
+            this.init();
+        },
+        methods: {
+            init: function() {
+                // Receive the config and get the moment class
+                SDK.onConfigReceived(() => {
+                    SDK.connection.getMomentClass().then((data) => {
+                        this.moment = data;
 
+                        // TODO: Use configuration
+                        this.logoOverlay = 'https://purepng.com/public/uploads/large/purepng.com-nike-logologobrand-logoiconslogos-251519940082eoxxs.png';
 
-/**
- * Draw the array of tiles on the screen.
- * @param {array} tiles
- */
-function draw_tiles(tiles) {
-    // Variables
-    let tiles_container = document.getElementById('tiles-container');
+                        this.colorOverlay = this.moment.custom.mosaicBackground.length > 0 ? this.moment.custom.mosaicBackground[0] : '#FFFFFF';
 
-    tiles.forEach(function(item, index) {
-        let child_node = tiles_container.children.item(index);
+                        // Initialize tiles with empty array
+                        this.tiles = (Array(this.moment.custom.mosaicGallerySize).fill(null));
 
-        // Create a new child_node if none exists yet.
-        if(!child_node) {
-            child_node = document.createElement('div');
-            child_node.classList.add('tile');
+                        // Resize tiles on window resize
+                        window.addEventListener('resize', this.updateTileSize);
+                    });
+                });
+            },
+            updateTileSize: function() {
+                let viewport_width = window.innerWidth;
+                let viewport_height = window.innerHeight;
+                let configured_tiles_count = this.moment ? this.moment.custom.mosaicGallerySize : 0;
 
-            // Only for testing
-            child_node.style.color = '#' + Math.random().toString(16).substr(2,6);
+                let cols = 0, rows, tile_size;
+                do {
+                    cols++;
+                    tile_size = viewport_width / cols;
+                    rows = Math.ceil( configured_tiles_count / cols);
+                } while(rows * tile_size > viewport_height);
 
-            tiles_container.append(child_node);
+                // Set cols
+                this.cols = cols;
+
+                // Fill tiles array to fit cols * rows
+                let optimal_tiles_count = rows * cols;
+                if(optimal_tiles_count > this.tiles.length) {
+                    this.tiles.push(null);
+                }
+                if(optimal_tiles_count < this.tiles.length) {
+                    this.tiles.pop();
+                }
+            }
         }
     });
-
 }
-
-
-/**
- * Update the size of each tile according to the viewport width and height.
- */
-function update_tile_size() {
-    // Variables
-    let tiles_container = document.getElementById('tiles-container');
-    let tiles = document.getElementsByClassName('tile');
-    let tiles_count = tiles.length;
-
-    let viewport_width = window.innerWidth;
-    let viewport_height = window.innerHeight;
-
-    // Increase the number of columns until they fit inside the viewport
-    let cols = 0, rows, tile_size;
-    do {
-        cols++;
-        tile_size = viewport_width / cols;
-        rows = Math.ceil(tiles_count / cols);
-    } while(rows * tile_size > viewport_height);
-
-    let percentage_width = 100 / cols;
-    for(let i = 0; i < tiles.length; i++) {
-        tiles[i].style.flex = '0 0 ' + percentage_width + '%';
-    }
-}
-
