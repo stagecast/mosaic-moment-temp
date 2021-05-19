@@ -49,13 +49,25 @@ html, body {
 .tile {
     position: relative;
     flex: 0 0 0;
+    z-index: 40;
+    transition: background 0.2s ease-in-out;
 }
 
 .tile--empty {
     z-index: 150;
+    background-color: currentColor;
 }
 
 .tile-image {
     padding-bottom: 100%;
-    background: currentColor;
+    background-color: transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.tile--empty .tile-image {
+    opacity: 0;
 }
