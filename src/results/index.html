@@ -10,12 +10,13 @@
 <body>
 <div class="mosaic-wrapper">
     <div id="mosaic">
-        <div class="mosaic-logo-overlay" :style="{ 'background-image': logoOverlay ? 'url(' + logoOverlay + ')' : null }"></div>
+        <div class="mosaic-logo-overlay" :style="{ 'background-image': logoOverlay ? 'url(' + getContentCdnLocation(logoOverlay) + ')' : null }"></div>
         <div class="mosaic-color-overlay" :style="{ 'background-color': colorOverlay }"></div>
         <div class="tile" v-for="(tile, index) in tiles" v-bind:key="index"
             :style="{
                 flex: '0 0 ' + (100/cols) + '%',
-                color: emptyTileColors[randomArray[index] % emptyTileColors.length]
+                color: emptyTileColors[randomArray[index] % emptyTileColors.length],
+                backgroundImage: (!tile && emptyTileBackgroundImage) ? 'url(' + getContentCdnLocation(emptyTileBackgroundImage) + ')' : null,
             }"
             :class="{ 'tile--empty': !tile }">
             <div class="tile-image" :style="{ backgroundImage: tile ? 'url(' + getContentCdnLocation(tile) + ')' : false }">

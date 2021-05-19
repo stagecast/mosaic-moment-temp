@@ -34,7 +34,9 @@ var momentData = {
       // props for result page
       "mosaicGallerySize": 100,
       "mosaicEmptyTileColor": [],
+      "mosaicEmptyTileImage": ["A58885CD-F82A-443F-83E8-8CE81FB128F1"],
       "mosaicBackground": ["#FADC60"],
+      "mosaicBackgroundImage": ["A58885CD-F82A-443F-83E8-8CE81FB128F1"],
       "mosaicColors": ["#FADC60"],
 
       // props for both

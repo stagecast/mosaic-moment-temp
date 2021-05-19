@@ -8,6 +8,7 @@ if(window.Stagecast) {
         el: '#mosaic',
         data: {
             FETCH_TIMEOUT: 5000,
+            FETCH_DELETED_TIMEOUT: 60000,
             tiles: [],
             images: [],
             momentClass: undefined,
@@ -15,39 +16,16 @@ if(window.Stagecast) {
             cols: 0,
             logoOverlay: undefined,
             colorOverlay: undefined,
+            emptyTileColors: ['#1F1F1F'],
+            emptyTileBackground: undefined,
             randomArray: [],
-        },
-        computed: {
-            emptyTileColors: function() {
-                let colors = ['#1F1F1F'];
-                if (this.momentClass && this.momentClass.custom.mosaicEmptyTileColor.length > 0) {
-                    colors = this.momentClass.custom.mosaicEmptyTileColor;
-                }
-                return colors;
-            },
         },
         watch: {
             tiles: function(newTiles, oldTiles) {
                 this.updateTileSize();
             },
             images: function(newImages, oldImages) {
-                // Get the unassigned images
-                const unassigned_images = this.images.filter(image => {
-                    return !this.tiles.includes(image._id);
-                });
-
-                // Loop through the unassigned images
-                for(let i = 0; i < unassigned_images.length; i++) {
-                    // Loop through the tiles, until there is an empty space
-                    let tiles_keys = Array.from(this.tiles.keys());
-                    tiles_keys = shuffle(tiles_keys);
-                    for(let j = 0; j < tiles_keys.length; j++) {
-                        if(!this.tiles[tiles_keys[j]]) {
-                            this.tiles.splice(tiles_keys[j], 1, unassigned_images[i]._id);
-                            break;
-                        }
-                    }
-                }
+                this.onImagesWatch();
             }
         },
         created() {
@@ -58,10 +36,6 @@ if(window.Stagecast) {
                 // Receive the config and get the moment class
                 SDK.onConfigReceived(() => {
 
-                    SDK.connection.getDeletedContent().then(data => {
-                        console.log(data);
-                    });
-
                     Promise.all([
                         SDK.connection.getMomentClass(),
                         SDK.connection.getMoment()
@@ -69,9 +43,21 @@ if(window.Stagecast) {
                         this.momentClass = data[0];
                         this.moment = data[1];
 
-                        this.logoOverlay = 'https://purepng.com/public/uploads/large/purepng.com-nike-logologobrand-logoiconslogos-251519940082eoxxs.png';
+                        this.logoOverlay = this.momentClass.custom.mosaicBackgroundImage.length > 0
+                            ? this.momentClass.custom.mosaicBackgroundImage[0]
+                            : null;
 
-                        this.colorOverlay = this.momentClass.custom.mosaicBackground.length > 0 ? this.momentClass.custom.mosaicBackground[0] : '#FFFFFF';
+                        this.colorOverlay = this.momentClass.custom.mosaicBackground.length > 0
+                            ? this.momentClass.custom.mosaicBackground[0]
+                            : '#FFFFFF';
+
+                        this.emptyTileColors = this.momentClass.custom.mosaicEmptyTileColor.length > 0
+                            ? this.momentClass.custom.mosaicEmptyTileColor
+                            : ['#1F1F1F'];
+
+                        this.emptyTileBackgroundImage = this.momentClass.custom.mosaicEmptyTileImage.length > 0
+                            ? this.momentClass.custom.mosaicEmptyTileImage
+                            : null;
 
                         // Create an array of random indexes for some randomness
                         this.randomArray = shuffle(Array.from(Array(2 * this.momentClass.custom.mosaicGallerySize).keys()));
@@ -82,13 +68,47 @@ if(window.Stagecast) {
                         // Resize tiles on window resize
                         window.addEventListener('resize', this.updateTileSize);
 
-                        // Fetch images once, after that on a regular basis
+                        // Fetch images (and deleted images) once, after that on a regular basis
                         this.fetchImages();
                         window.setInterval(this.fetchImages, this.FETCH_TIMEOUT);
+                        window.setInterval(this.fetchDeletedImages, this.FETCH_DELETED_TIMEOUT);
                         window.setInterval(this.rotateImages, this.FETCH_TIMEOUT);
                     });
                 });
             },
+
+            onImagesWatch: function() {
+
+                // Get the unassigned images
+                let unassigned_images = this.images.filter(image => {
+                    return !this.tiles.includes(image._id);
+                });
+
+                unassigned_images = shuffle(unassigned_images);
+
+                unassigned_images.sort((a,b) => a.viewed - b.viewed);
+
+                // Loop through the unassigned images
+                for(let i = 0; i < unassigned_images.length; i++) {
+                    // Loop through the tiles, until there is an empty space
+                    let tiles_keys = Array.from(this.tiles.keys());
+                    tiles_keys = shuffle(tiles_keys);
+                    for(let j = 0; j < tiles_keys.length; j++) {
+                        if(!this.tiles[tiles_keys[j]]) {
+                            this.tiles.splice(tiles_keys[j], 1, unassigned_images[i]._id);
+
+                            // Set the viewed flag to 1
+                            let index = this.images.findIndex(image => image._id === unassigned_images[i]._id);
+                            this.images[index].viewed = 1;
+
+                            break;
+                        }
+                    }
+                }
+
+
+            },
+
             updateTileSize: function() {
                 let viewport_width = window.innerWidth;
                 let viewport_height = window.innerHeight;
@@ -120,19 +140,8 @@ if(window.Stagecast) {
                 let contentTag = this.moment.class;
 
                 this.asyncFetchImages(offset, amount, contentTag);
-            },
 
-            rotateImages: function () {
-                // Only rotate when there are more images than tiles.
-                if(this.images.length > this.tiles.length) {
-                    // Overwrite random tile with an image which is not shown
-                    const unassigned_images = this.images.filter(image => {
-                        return !this.tiles.includes(image._id);
-                    });
-
-                    let image = unassigned_images[Math.floor(Math.random() * unassigned_images.length)];
-                    this.tiles.splice(Math.floor(Math.random() * this.tiles.length), 1, image._id);
-                }
+                this.onImagesWatch();
             },
 
             asyncFetchImages: function(offset, amount, contentTag) {
@@ -147,11 +156,66 @@ if(window.Stagecast) {
                         if(this.images.filter(e => e._id === element._id).length > 0) {
                             return false;
                         }
-                        this.images.push(element);
+                        this.images.push({
+                            ...element,
+                            viewed: 0,
+                        });
                     }
 
                     this.asyncFetchImages(offset + amount, amount, contentTag);
                 });
+            },
+
+            fetchDeletedImages: function() {
+                SDK.connection.getDeletedContent().then((response) => {
+                    for(let i = 0; i < response.data.length; i++) {
+                        let deleted_image_id = response.data[i];
+
+                        let delete_index_images = this.images.findIndex(image => image._id === deleted_image_id);
+                        if(delete_index_images > -1) {
+                            this.images.splice(delete_index_images, 1);
+                        }
+
+                        let delete_index_tiles = this.tiles.findIndex(deleted_image_id);
+                        if(delete_index_tiles > -1) {
+                            this.tiles.splice(delete_index_tiles, 1);
+                        }
+                    }
+                });
+            },
+
+            rotateImages: function () {
+                // Only rotate when there are more images than tiles.
+                if(this.images.length > this.tiles.length) {
+                    // Overwrite random tile with an image which is not shown
+                    let unassigned_images = this.images.filter(image => {
+                        return !this.tiles.includes(image._id);
+                    });
+                    unassigned_images = shuffle(unassigned_images);
+                    // Sort the unassigned images, in order to view those with no views first.
+                    unassigned_images.sort((a,b) => a.viewed - b.viewed);
+
+                    let image = unassigned_images[0];
+
+                    this.tiles.splice(Math.floor(Math.random() * this.tiles.length), 1, image._id);
+
+                    // Set the viewed flag to 1
+                    let index = this.images.findIndex(image => image._id === unassigned_images[0]._id);
+                    this.images[index].viewed = 1;
+                }
+
+                // Edge case: Same number of images and tiles.
+                if(this.images.length === this.tiles.length) {
+                    // Interchange two elements:
+                    let index_1 = Math.floor(Math.random() * this.tiles.length);
+                    let index_2 = Math.floor(Math.random() * this.tiles.length);
+                    let item_2 = this.tiles[index_2];
+
+                    this.tiles.splice(index_2, 1, this.tiles[index_1]);
+                    this.tiles.splice(index_1, 1, item_2);
+                }
+
+                console.log(this.images.filter(image => image.viewed === 0));
             },
 
             // This will be replaced by an SDK API function call.
