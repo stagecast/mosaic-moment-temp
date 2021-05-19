@@ -19,6 +19,7 @@ if(window.Stagecast) {
             emptyTileColors: ['#1F1F1F'],
             emptyTileBackground: undefined,
             randomArray: [],
+            lastKnownDeletedIndex: 0
         },
         watch: {
             tiles: function(newTiles, oldTiles) {
@@ -168,7 +169,8 @@ if(window.Stagecast) {
 
             fetchDeletedImages: function() {
                 SDK.connection.getDeletedContent().then((response) => {
-                    for(let i = 0; i < response.data.length; i++) {
+
+                    for(let i = this.lastKnownDeletedIndex; i < response.data.length; i++) {
                         let deleted_image_id = response.data[i];
 
                         let delete_index_images = this.images.findIndex(image => image._id === deleted_image_id);
@@ -181,6 +183,8 @@ if(window.Stagecast) {
                             this.tiles.splice(delete_index_tiles, 1, null); // Replace with null to prevent offsetting other items
                         }
                     }
+                    this.lastKnownDeletedIndex = response.data.length
+
                 });
             },
 
