@@ -19,6 +19,7 @@ if(window.Stagecast) {
             emptyTileColors: ['#1F1F1F'],
             emptyTileBackground: undefined,
             randomArray: [],
+            loadedImages: [],
         },
         watch: {
             tiles: function(newTiles, oldTiles) {
@@ -63,7 +64,7 @@ if(window.Stagecast) {
                         this.randomArray = shuffle(Array.from(Array(2 * this.momentClass.custom.mosaicGallerySize).keys()));
 
                         // Initialize tiles with empty array
-                        this.tiles = (Array(this.momentClass.custom.mosaicGallerySize).fill(null));
+                        this.tiles = Array.from(new Array(this.momentClass.custom.mosaicGallerySize),() => []);
 
                         // Resize tiles on window resize
                         window.addEventListener('resize', this.updateTileSize);
@@ -80,12 +81,9 @@ if(window.Stagecast) {
             onImagesWatch: function() {
 
                 // Get the unassigned images
-                let unassigned_images = this.images.filter(image => {
-                    return !this.tiles.includes(image._id);
-                });
+                let unassigned_images = this.getUnassignedImages();
 
                 unassigned_images = shuffle(unassigned_images);
-
                 unassigned_images.sort((a,b) => a.viewed - b.viewed);
 
                 // Loop through the unassigned images
@@ -94,8 +92,10 @@ if(window.Stagecast) {
                     let tiles_keys = Array.from(this.tiles.keys());
                     tiles_keys = shuffle(tiles_keys);
                     for(let j = 0; j < tiles_keys.length; j++) {
-                        if(!this.tiles[tiles_keys[j]]) {
-                            this.tiles.splice(tiles_keys[j], 1, unassigned_images[i]._id);
+                        // Tile is empty when it's length is 0 / false.
+                        if(!this.tiles[tiles_keys[j]].length) {
+                            this.tiles[tiles_keys[j]].push(unassigned_images[i]._id);
+                            this.tiles.splice(tiles_keys[j], 1, this.tiles[tiles_keys[j]]);
 
                             // Set the viewed flag to 1
                             let index = this.images.findIndex(image => image._id === unassigned_images[i]._id);
@@ -106,7 +106,10 @@ if(window.Stagecast) {
                     }
                 }
 
+            },
 
+            tileIsActive: function(tile) {
+                return !!tile.length && this.loadedImages.includes(tile[0]);
             },
 
             updateTileSize: function() {
@@ -127,7 +130,7 @@ if(window.Stagecast) {
                 // Fill tiles array to fit cols * rows
                 let optimal_tiles_count = rows * cols;
                 if(optimal_tiles_count > this.tiles.length) {
-                    this.tiles.push(null);
+                    this.tiles.push([]);
                 }
                 if(optimal_tiles_count < this.tiles.length) {
                     this.tiles.pop();
@@ -176,9 +179,9 @@ if(window.Stagecast) {
                             this.images.splice(delete_index_images, 1);
                         }
 
-                        let delete_index_tiles = this.tiles.findIndex(element => element === deleted_image_id);
+                        let delete_index_tiles = this.tiles.findIndex(element => element.includes(deleted_image_id));
                         if(delete_index_tiles > -1) {
-                            this.tiles.splice(delete_index_tiles, 1, null); // Replace with null to prevent offsetting other items
+                            this.tiles.splice(delete_index_tiles, 1, []); // Replace with null to prevent offsetting other items
                         }
                     }
                 });
@@ -188,16 +191,15 @@ if(window.Stagecast) {
                 // Only rotate when there are more images than tiles.
                 if(this.images.length > this.tiles.length) {
                     // Overwrite random tile with an image which is not shown
-                    let unassigned_images = this.images.filter(image => {
-                        return !this.tiles.includes(image._id);
-                    });
+                    let unassigned_images = this.getUnassignedImages();
                     unassigned_images = shuffle(unassigned_images);
                     // Sort the unassigned images, in order to view those with no views first.
                     unassigned_images.sort((a,b) => a.viewed - b.viewed);
 
                     let image = unassigned_images[0];
 
-                    this.tiles.splice(Math.floor(Math.random() * this.tiles.length), 1, image._id);
+                    this.tiles[Math.floor(Math.random() * this.tiles.length)].push(image._id);
+                    // this.tiles.splice(Math.floor(Math.random() * this.tiles.length), 1, image._id);
 
                     // Set the viewed flag to 1
                     let index = this.images.findIndex(image => image._id === unassigned_images[0]._id);
@@ -225,6 +227,10 @@ if(window.Stagecast) {
 
             getContentCdnLocation(id) {
                 return SDK.connection.getContentCdnLocation(id);
+            },
+
+            getUnassignedImages() {
+                return  this.images.filter(image => !this.tiles.filter(tile => tile[tile.length-1] === image._id).length);
             }
         }
     });

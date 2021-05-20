@@ -49,14 +49,21 @@ html, body {
 .tile {
     position: relative;
     flex: 0 0 0;
-    z-index: 40;
-    transition: background 0.2s ease-in-out;
     background: none;
+    z-index: 150;
 }
 
-.tile--empty {
+.tile.active {
+    z-index: 0;
+}
+
+.tile-empty {
     z-index: 150;
-    background-color: currentColor;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -64,14 +71,42 @@ html, body {
 
 .tile-image {
     padding-bottom: 100%;
-    background-color: transparent;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    opacity: 1;
-    transition: opacity 0.2s ease-in-out;
+    position: relative;
 }
 
-.tile--empty .tile-image {
+.tile-image-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.tile-image-item img {
+    background: #fff;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Transition */
+
+.list-enter-active, .list-leave-active {
+    transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: scale(1.5);
+    transform-origin: center center;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
 }

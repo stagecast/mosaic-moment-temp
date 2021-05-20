@@ -14,13 +14,25 @@
         <div class="mosaic-color-overlay" :style="{ 'background-color': colorOverlay }"></div>
         <div class="tile" v-for="(tile, index) in tiles" v-bind:key="index"
             :style="{
-                flex: '0 0 ' + (100/cols) + '%',
-                color: emptyTileColors[randomArray[index] % emptyTileColors.length],
-                backgroundImage: (!tile && emptyTileBackgroundImage) ? 'url(' + getContentCdnLocation(emptyTileBackgroundImage) + ')' : null,
+                flex: '0 0 ' + (100/cols) + '%'
             }"
-            :class="{ 'tile--empty': !tile }">
-            <div class="tile-image" :style="{ backgroundImage: tile ? 'url(' + getContentCdnLocation(tile) + ')' : false }">
-            </div>
+            :class="{ active: tileIsActive(tile) }">
+
+
+            <transition name="fade">
+                <div v-show="!tileIsActive(tile)" class="tile-empty" :style="{
+                    backgroundColor: emptyTileColors[randomArray[index] % emptyTileColors.length],
+                    backgroundImage: emptyTileBackgroundImage ? 'url(' + getContentCdnLocation(emptyTileBackgroundImage) + ')' : null,
+                }"></div>
+            </transition>
+
+
+            <transition-group name="list" tag="div" class="tile-image">
+                <div class="tile-image-item" v-for="(image, index) in tile" v-bind:key="image" >
+                    <img @load="loadedImages.push(image)" :src="getContentCdnLocation(image)" v-show="loadedImages.includes(image)" alt="">
+                </div>
+            </transition-group>
+
         </div>
     </div>
 </div>
